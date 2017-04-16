@@ -62,10 +62,10 @@ public class Transposer {
                 for (int j = 0; j < result.get(i).size(); j++) {
                     try {
                         if (cut) size = width;
-                        else size =  result.get(i).get(j).length();
+                        else size = result.get(i).get(j).length();
                         if (j != result.get(i).size() - 1)
                             out.write(result.get(i).get(j) + " ", 0, size);
-                        else out.write(result.get(i).get(j),0, size);
+                        else out.write(result.get(i).get(j), 0, size);
                     } catch (IndexOutOfBoundsException ignored) {
                     }
                 }
@@ -75,7 +75,7 @@ public class Transposer {
         }
     }
 
-    //добавить выравнивание и cut
+    //вроде всё ок
     public void transpose(String inputName, String outputName) throws IOException {
         String lines = Files.readAllLines(Paths.get(inputName), Charset.defaultCharset())
                 .toString().replace("[", "").replace("]", "");
@@ -93,18 +93,24 @@ public class Transposer {
         }
         List<String> result = new ArrayList<>();
         for (int i = 0; i < maxRowSize; i++) {
-            StringBuilder row = new StringBuilder();
+            StringBuilder string = new StringBuilder();
             for (int j = 0; j < maxRowSize; j++) {
                 try {
-                    String str = list.get(j).get(i);
-                    row.append(str).append(" ");
+                    String word = list.get(j).get(i);
+                    if (cut)
+                        string.append(word.substring(0, width)).append(" ");
+                    else string.append(word).append(" ");
                 } catch (IndexOutOfBoundsException ignored) {
                 }
             }
-            result.add(row.toString());
+            result.add(string.toString());
         }
+        int aligner = list.size();
+        String al = "%" + (aligner * 2 - 1) + "s";
         for (int i = 0; i < result.size(); i++) {
-            out.write(result.get(i).trim());
+            String str = result.get(i).trim();
+            if (alignRight) out.write(String.format(al, str));
+            else out.write(str);
             if (i != result.size() - 1)
                 out.write("\n");
         }
