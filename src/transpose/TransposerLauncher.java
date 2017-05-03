@@ -33,7 +33,7 @@ public class TransposerLauncher {
 
         try {
             parser.parseArgument(args);
-            if (Objects.deepEquals(width, null) && (cut || alignRight)) width = 10;
+            if (width == 0 && (cut || alignRight)) width = 10;
         } catch (CmdLineException e) {
             System.err.println(e.getMessage());
             System.err.println("java - jar transpose.jar -a width -t cut -r -o ofile -file");

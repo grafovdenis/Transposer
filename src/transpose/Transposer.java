@@ -24,32 +24,34 @@ public class Transposer {
             int maxRowSize = 0;
             while (s.hasNextLine()) {
                 List<String> row = new ArrayList<>();
-                Collections.addAll(row,(s.nextLine()).split("[ ]+"));
+                String[] words = s.nextLine().split("[ ]+");
+                Collections.addAll(row, words);
                 if (row.size() > maxRowSize) maxRowSize = row.size();
                 list.add(row);
             }
-            List<String> result = new ArrayList<>();
+
+            String align = ((this.alignRight) || (width == 0)) ? "" : "-";
             for (int i = 0; i < maxRowSize; i++) {
-                StringBuilder string = new StringBuilder();
+                StringBuilder str = new StringBuilder();
                 for (int j = 0; j < maxRowSize; j++) {
                     try {
-                        String word = list.get(j).get(i);
+                        String widthToStr = width == 0 ? "" : Integer.toString(width);
+                        String word = String.format("%" + align + widthToStr + "s",list.get(j).get(i));
                         if (cut)
-                            string.append(word.substring(0, width)).append(" ");
-                        else string.append(word).append(" ");
+                            word = word.substring(0,width);
+                        str.append(word);
+                        int len = (width != 0) ? width - word.length() + 1 : word.length();
+                        for (int n = 0; n < len; n++) {
+                            str.append(" ");
+                        }
                     } catch (IndexOutOfBoundsException ignored) {
+                        int len = width != 0 ? width : 1;
+                        for (int n = 0; n < len + 1; n++) {
+                            str.append(" ");
+                        }
                     }
                 }
-                result.add(string.toString());
-            }
-            int aligner = list.size();
-            String al = "%" + (aligner * 2 - 1) + "s";
-            for (int i = 0; i < result.size(); i++) {
-                String str = result.get(i).trim();
-                if (alignRight) out.write(String.format(al, str));
-                else out.write(str);
-                if (i != result.size() - 1)
-                    out.write("\n");
+                out.println(str);
             }
         }
         out.close();
