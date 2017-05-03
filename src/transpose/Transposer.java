@@ -36,19 +36,21 @@ public class Transposer {
                 StringBuilder str = new StringBuilder();
                 for (int j = 0; j < maxRowSize; j++) {
                     try {
-                        String word = String.format("%" + align + widthToStr + "s",list.get(j).get(i));
+                        String word = String.format("%" + align + widthToStr + "s", list.get(j).get(i));
                         if (cut)
-                            word = word.substring(0,width);
+                            word = word.substring(0, width);
                         str.append(word);
                         int len = (width != 0) ? width - word.length() + 1 : word.length();
-                        for (int n = 0; n < len; n++) {
-                            str.append(" ");
-                        }
+                        if (j != maxRowSize - 1)
+                            for (int n = 0; n < len; n++) {
+                                str.append(" ");
+                            }
                     } catch (IndexOutOfBoundsException ignored) {
                         int len = width != 0 ? width : 1;
-                        for (int n = 0; n < len + 1; n++) {
-                            str.append(" ");
-                        }
+                        if (j != maxRowSize - 1)
+                            for (int n = 0; n < len + 1; n++) {
+                                str.append(" ");
+                            }
                     }
                 }
                 out.println(str);
