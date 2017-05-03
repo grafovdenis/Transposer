@@ -31,11 +31,11 @@ public class Transposer {
             }
 
             String align = ((this.alignRight) || (width == 0)) ? "" : "-";
+            String widthToStr = width == 0 ? "" : Integer.toString(width);
             for (int i = 0; i < maxRowSize; i++) {
                 StringBuilder str = new StringBuilder();
                 for (int j = 0; j < maxRowSize; j++) {
                     try {
-                        String widthToStr = width == 0 ? "" : Integer.toString(width);
                         String word = String.format("%" + align + widthToStr + "s",list.get(j).get(i));
                         if (cut)
                             word = word.substring(0,width);
