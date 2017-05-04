@@ -40,7 +40,7 @@ public class Transposer {
                         if (cut)
                             word = word.substring(0, width);
                         str.append(word);
-                        int len = (width != 0) ? width - word.length() + 1 : word.length();
+                        int len = (width != 0) ? Math.max(width - word.length(), 0) + 1 : 1;
                         if (j != maxRowSize - 1)
                             for (int n = 0; n < len; n++) {
                                 str.append(" ");

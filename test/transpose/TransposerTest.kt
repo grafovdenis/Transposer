@@ -21,7 +21,7 @@ class TransposerTest {
     }
 
     @Test
-    fun transpose() {
+    fun transposeTest() {
         val t1 = Transposer(0, false, false)
         t1.transpose(FileInputStream("files/input.txt"), FileOutputStream("files/output.txt"))
         assertFileContent("files/output.txt",
@@ -43,6 +43,31 @@ class TransposerTest {
                 "2 5 7 \n" +
                 "3   8 \n" +
                 "    9 ")
+    }
+
+    @Test
+    fun transposeLauncherTest() {
+        val t = TransposerLauncher()
+        val args1 = arrayOf("-file", "files/input.txt", "-o", "files/output2.txt")
+        t.launch(args1)
+        assertFileContent("files/output2.txt",
+                "1 4 6 10\n" +
+                        "2 5 7 \n" +
+                        "3   8 \n" +
+                        "    9 ")
+        val args2 = arrayOf("-file", "files/input.txt", "-o", "files/output2.txt", "-r")
+        t.launch(args2)
+        assertFileContent("files/output2.txt",
+                "         1          4          6         10\n" +
+                        "         2          5          7 \n" +
+                        "         3                     8 \n" + "                               9 ")
+        val args3 = arrayOf("-file", "files/input.txt", "-o", "files/output2.txt", "-a", "1", "-t")
+        t.launch(args3)
+        assertFileContent("files/output2.txt",
+                "1 4 6 1\n" +
+                        "2 5 7 \n" +
+                        "3   8 \n" +
+                        "    9 ")
     }
 
 }

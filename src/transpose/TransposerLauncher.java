@@ -6,7 +6,6 @@ import org.kohsuke.args4j.Option;
 
 
 import java.io.*;
-import java.util.Objects;
 
 public class TransposerLauncher {
     @Option(name = "-file", metaVar = "file", usage = "Задаёт имя входного файла")
@@ -28,7 +27,7 @@ public class TransposerLauncher {
         new TransposerLauncher().launch(args);
     }
 
-    private void launch(String[] args) {
+    public void launch(String[] args) {
         CmdLineParser parser = new CmdLineParser(this);
 
         try {
@@ -36,7 +35,7 @@ public class TransposerLauncher {
             if (width == 0 && (cut || alignRight)) width = 10;
         } catch (CmdLineException e) {
             System.err.println(e.getMessage());
-            System.err.println("java - jar transpose.jar -a width -t cut -r -o ofile -file");
+            System.err.println("java -jar part2.jar -a width -t cut -r -o ofile -file");
             parser.printUsage(System.err);
             return;
         }
